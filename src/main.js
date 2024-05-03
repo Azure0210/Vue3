@@ -8,7 +8,6 @@ import router from './router'
 
 // 引入初始化文件
 import '@/styles/common.scss'
-
 const app = createApp(App)
 
 

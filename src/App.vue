@@ -3,10 +3,17 @@
 </script>
 
 <template>
- <el-button type="primary">i am button</el-button>
+ <!-- <el-button type="primary">i am button</el-button> -->
+ <!-- 一级路由出口 -->
+  <router-view />
+  <div class="test">scss</div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.test {
+  color: $priceColor;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
