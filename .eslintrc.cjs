@@ -12,6 +12,6 @@ module.exports = {
     ecmaVersion: 'latest'
   },
   rules: {
-   'vue/multi-word-component-names': 0,
+   'vue/multi-word-component-names': 0,  // 不再强求要求组件命名
   }
 }
