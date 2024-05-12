@@ -5,7 +5,10 @@ import XtxSku from '@/components/XtxSku/index.vue'
 import { getDetailAPI } from '@/apis/detail'
 import { ref,onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import { useCartStore } from '@/stores/cartStore'
 
+const cartStore = useCartStore()
 const goods = ref({})
 const route = useRoute()
 const getGoods = async() => {
@@ -15,10 +18,41 @@ const getGoods = async() => {
 
 onMounted(() => getGoods())
 
+let skuObj = {}
 // sku测试
 // const skuChange = (sku) => {
 //   console.log(sku);
 // }
+
+// count 购物车添加
+const count = ref(1)
+
+const handleChange = (count) => {
+  console.log(count);
+}
+
+// 添加判断条件 加入购物车时是否添加完全 通过 skuId 
+// 在sku中如果没有选全则skuObj是空对象
+const addCart = () => {
+  if(skuObj.skuId !== undefined)
+  {
+    cartStore.addCart({
+      id: goods.value.id,
+      name: goods.value.name,
+      price: goods.value.price,
+      picture: goods.value.mainPictures[0],
+      count: count.value,
+      skuId: skuObj.skuId,
+      attrsText: skuObj.specsText,
+      selected: true
+    })
+  }else
+  {
+    ElMessage.warning('请选择完整规格')
+  
+  }
+
+}
 </script>
 
 <template>
@@ -96,12 +130,12 @@ onMounted(() => getGoods())
                 </dl>
               </div>
               <!-- sku组件 -->
-              <XtxSku :goods="goods"></XtxSku>
+              <XtxSku :goods="goods" @change="skuObj = $event"></XtxSku>
               <!-- 数据组件 -->
-
+              <el-input-number v-model="count" :min="0" @change="handleChange" />
               <!-- 按钮组件 -->
               <div>
-                <el-button size="large" class="btn">
+                <el-button size="large" class="btn" @click="addCart">
                   加入购物车
                 </el-button>
               </div>
